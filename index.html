@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>HuluAI Virtual Computer V3 — Bedrock Forge</title>
+<style>
+:root{--bg:#080c12;--side:#0b1119;--panel:#111a26;--panel2:#172333;--line:#29384d;--text:#eef5ff;--muted:#9cacc2;--green:#9af6bb;--blue:#91baff;--yellow:#ffd88c;--red:#ff9eaa;--r:16px}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% -20%,#263c50 0,transparent 38%),var(--bg);color:var(--text);font:14px/1.5 Inter,Segoe UI,system-ui,sans-serif}button,input,textarea,select{font:inherit}button{border:1px solid var(--line);border-radius:10px;background:#1d2a3b;color:var(--text);padding:9px 12px;font-weight:700;cursor:pointer;transition:filter .15s,transform .15s}button:hover{filter:brightness(1.13)}button:active{transform:translateY(1px)}button:disabled{opacity:.45;cursor:not-allowed}.primary{background:var(--green);border-color:transparent;color:#08160e}.secondary{background:#111b28}.danger{color:var(--red)}a{color:var(--blue)}.app{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:100vh}.sidebar{padding:18px 14px;border-right:1px solid var(--line);background:rgba(8,13,20,.93);position:sticky;top:0;height:100vh;overflow:auto}.brand{display:flex;align-items:center;gap:10px;margin:4px 6px 24px}.logo{width:39px;height:39px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--green),var(--blue));color:#07130d;font-weight:950;font-size:20px;box-shadow:0 8px 28px #9af6bb22}.brand strong{display:block;font-size:13px}.brand small{color:var(--muted);font-size:10px}.nav{display:grid;gap:6px}.nav button{text-align:left;background:transparent;border-color:transparent;color:var(--muted);padding:10px 11px}.nav button.active{background:var(--panel2);border-color:var(--line);color:var(--text)}.nav button span{display:inline-block;width:24px;color:var(--green)}.sidecallout{margin:22px 4px 0;padding:12px;border:1px solid var(--line);background:#111a26;border-radius:12px;color:var(--muted);font-size:11px}.sidecallout strong{color:var(--yellow);display:block;margin-bottom:4px}.main{max-width:1650px;width:100%;padding:24px;margin:0 auto;min-width:0}.header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}.eyebrow{text-transform:uppercase;letter-spacing:.15em;font-size:10px;color:var(--green);font-weight:850}.header h1{font-size:clamp(25px,3.2vw,36px);letter-spacing:-.045em;line-height:1.1;margin:5px 0 7px}.subhead{color:var(--muted);max-width:760px}.headactions{display:flex;gap:8px;flex-wrap:wrap}.statusrow{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.pill{font-size:10px;border:1px solid var(--line);border-radius:999px;padding:5px 9px;background:#101823;color:var(--muted)}.pill.ok{color:var(--green);border-color:#2c6c49}.pill.warn{color:var(--yellow);border-color:#6a5430}.pill.bad{color:var(--red);border-color:#6e3542}.section{display:none}.section.active{display:block}.grid{display:grid;grid-template-columns:minmax(270px,.78fr) minmax(0,1.22fr);gap:14px}.stack{display:grid;gap:14px;align-content:start}.card{border:1px solid var(--line);background:linear-gradient(155deg,#141e2a,#101721);border-radius:var(--r);padding:16px;min-width:0;box-shadow:0 12px 30px #00000010}.card h2{font-size:15px;margin:0 0 5px}.card h3{font-size:12px;margin:0}.desc{font-size:12px;color:var(--muted);margin:0 0 13px}.field{display:grid;gap:6px;margin:0 0 12px}.field label{font-size:11px;font-weight:780;color:#c5d3e7}.field input,.field textarea,.field select{width:100%;min-width:0;background:#080f17;border:1px solid var(--line);border-radius:9px;padding:10px;color:var(--text);outline:none}.field input:focus,.field textarea:focus,.field select:focus{border-color:#76d9a0;box-shadow:0 0 0 3px #76d9a019}.field textarea{min-height:100px;resize:vertical}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row>*{min-width:0}.row .grow{flex:1}.toolbar{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}.tiny{font-size:10px;color:var(--muted)}.output{white-space:pre-wrap;overflow-wrap:anywhere;background:#080f17;border:1px solid var(--line);border-radius:10px;padding:12px;color:var(--muted);font:12px/1.55 Consolas,Monaco,monospace;min-height:52px}.output.good{color:var(--green)}.output.bad{color:var(--red)}.output.warn{color:var(--yellow)}.filetools{display:flex;gap:7px;margin-top:10px}.filetools input{flex:1;min-width:0;background:#080f17;border:1px solid var(--line);border-radius:8px;padding:8px;color:var(--text)}.filelist{display:grid;gap:6px;margin-top:10px;max-height:350px;overflow:auto}.fileitem{display:flex;align-items:center;gap:8px;text-align:left;width:100%;padding:8px 10px;background:#0c131d;border:1px solid var(--line);border-radius:9px;font-size:11px}.fileitem.active{border-color:#67c78f;background:#17281f}.fileglyph{width:24px;flex:none;text-align:center;color:var(--green)}.filepath{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}.fileext{color:var(--muted);font-size:9px}.editorbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}.editorbar small{color:var(--muted)}.editor{width:100%;height:350px;resize:vertical;tab-size:2;background:#070c12;border:1px solid #2b3b50;border-radius:11px;color:#e5efff;padding:13px;font:12px/1.55 Consolas,Monaco,monospace;white-space:pre;outline:none}.editor:focus{border-color:#6acb93}.editor[readonly]{color:#8998ac}.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.tabs button{font-size:10px;padding:7px 9px}.frame{width:100%;height:510px;background:#fff;border:1px solid var(--line);border-radius:12px}.codepreview{width:100%;height:510px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;background:#070c12;border:1px solid var(--line);border-radius:12px;padding:13px;font:12px/1.55 Consolas,Monaco,monospace}.hide{display:none!important}.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.checkline{display:flex;gap:8px;align-items:flex-start;font-size:11px;color:#c6d4e6;margin:8px 0}.checkline input{accent-color:#9af6bb;margin-top:3px}.toolgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.tool{border:1px solid var(--line);background:#0d151f;border-radius:12px;padding:14px;display:grid;gap:9px}.tooltop{display:flex;gap:10px;align-items:center}.toolicon{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--line);background:#182536;border-radius:11px;font-size:19px;flex:none}.tool p{font-size:11px;color:var(--muted);margin:0}.toollinks{display:flex;gap:7px;flex-wrap:wrap}.toollinks a{font-size:10px;border:1px solid var(--line);border-radius:8px;padding:7px 8px;text-decoration:none}.featuregrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.feature{border:1px solid var(--line);border-radius:11px;padding:12px;background:#0c141e}.feature b{display:block;font-size:11px;margin-bottom:4px}.feature span{font-size:10px;color:var(--muted)}.statuslight{width:8px;height:8px;border-radius:50%;background:var(--yellow);display:inline-block;margin-right:6px}.foot{font-size:10px;color:#73849b;margin:20px 0}.notice{border-left:3px solid var(--yellow);padding:10px 12px;background:#201b12;color:#d9c99d;border-radius:0 8px 8px 0;font-size:11px;margin:10px 0}.successnotice{border-left-color:var(--green);background:#122019;color:#b6e8c8}@media(max-width:1000px){.app{grid-template-columns:1fr}.sidebar{height:auto;position:relative;border-right:0;border-bottom:1px solid var(--line);padding:12px}.brand{margin-bottom:12px}.nav{grid-template-columns:repeat(3,minmax(0,1fr))}.nav button{font-size:11px;padding:8px;text-align:center}.sidecallout{display:none}.main{padding:14px}.grid{grid-template-columns:1fr}}@media(max-width:600px){.two,.toolgrid,.featuregrid{grid-template-columns:1fr}.nav{grid-template-columns:repeat(2,minmax(0,1fr))}.editor{height:270px}.headactions{width:100%}.headactions button{flex:1}.frame,.codepreview{height:400px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="logo">H</div><div><strong>HuluAI Virtual Computer</strong><small>V3 · Bedrock Forge Engine</small></div></div>
+  <nav class="nav" aria-label="Main navigation">
+    <button class="active" data-tab="workspace"><span>▣</span>Workspace</button>
+    <button data-tab="preview"><span>◉</span>Preview & checks</button>
+    <button data-tab="builder"><span>✦</span>Bedrock builder</button>
+    <button data-tab="apps"><span>▦</span>App library</button>
+    <button data-tab="connection"><span>⌁</span>Model connection</button>
+  </nav>
+  <div class="sidecallout"><strong>Engine status</strong>This is a browser-based project workspace, not a full Windows virtual machine. Local file tools work here; desktop app execution needs a separate Windows agent.</div>
+</aside>
+<main class="main">
+<header class="header"><div><div class="eyebrow">Virtual Computer · V3 Bedrock Forge</div><h1>Build. Preview. Validate. Export.</h1><div class="subhead">A Minecraft Bedrock-focused workspace with a preview flow that selects working HTML automatically, project templates, structured pack generation, diagnostics, and optional HuluAI connection.</div></div><div class="headactions"><button id="importFilesBtn">Import files</button><input id="importFilesInput" type="file" multiple hidden><button id="exportWorkspace" class="primary">Export workspace ZIP</button></div></header>
+<div class="statusrow"><span id="modelPill" class="pill warn">● Model API not connected</span><span class="pill ok">● Preview engine loaded</span><span id="filesPill" class="pill">● 0 workspace files</span><span class="pill ok">● Local checks available</span><span class="pill warn">● Windows agent not connected</span></div>
+
+<section id="workspace" class="section active">
+<div class="grid">
+ <div class="stack">
+  <div class="card"><h2>Give the computer a task</h2><p class="desc">Connect a compatible HuluAI API to run model tasks. Otherwise use the deterministic local commands and project tools below.</p>
+   <div class="field"><label for="instruction">Task instruction</label><textarea id="instruction" placeholder="Example: inspect the manifest files, identify invalid JSON and duplicate UUIDs, and explain the fixes."></textarea></div>
+   <div class="row"><button id="sendTask" class="primary grow">Run with HuluAI</button><button id="runLocalTask" class="grow">Run local command</button></div>
+   <div class="field" style="margin-top:13px"><label>Task output</label><div id="taskOutput" class="output">No task run yet.</div></div>
+   <div class="tiny">Local commands supported: help, list files, inspect files, check/validate project, preview current HTML. Use the Bedrock builder to create an actual starter package.</div>
+  </div>
+  <div class="card"><div class="row" style="justify-content:space-between"><div><h2>Workspace files</h2><p class="desc" style="margin-bottom:0">Saved in this browser until exported.</p></div><div class="row"><button id="templateMenu">＋ Template</button><button id="newFile">＋ New file</button></div></div>
+   <div class="filetools"><input id="fileSearch" placeholder="Filter file paths…" aria-label="Filter workspace files"><button id="refreshFiles">Refresh</button></div>
+   <div id="fileList" class="filelist"></div>
+   <div class="toolbar"><button id="renameFile">Rename</button><button id="duplicateFile">Duplicate</button><button id="deleteFile" class="danger">Delete</button></div>
+   <div class="tiny" id="storageNote">Workspace persists in localStorage for this browser and website URL.</div>
+  </div>
+ </div>
+ <div class="card"><div class="editorbar"><div><h2 id="currentFileTitle">Select a file</h2><small id="currentFileMeta">No file selected</small></div><div class="row"><button id="saveFile" class="primary">Save</button><button id="downloadFile">Download file</button></div></div>
+   <textarea id="fileEditor" class="editor" spellcheck="false" aria-label="File editor" placeholder="Select or create a text file…"></textarea>
+   <div class="tabs"><button id="previewHtml" class="primary">Preview HTML ↗</button><button id="validateJson">Validate JSON</button><button id="validateManifest">Check manifest</button><button id="showFilePreview">Preview current file</button></div>
+   <div id="fileFeedback" class="output">Changes are not saved until you click Save.</div>
+ </div>
+</div>
+</section>
+
+<section id="preview" class="section">
+ <div class="card"><h2>Preview and validate the model's project</h2><p class="desc">HTML runs in a sandboxed iframe. JSON and Bedrock manifests receive static checks. These checks are not the same as running Minecraft.</p>
+  <div class="tabs"><button id="previewTabHtml" class="primary">Visual preview</button><button id="refreshPreview">↻ Refresh preview</button><button id="popoutPreview">Open in new tab ↗</button><button id="previewTabCode">Code preview</button><button id="previewTabImage">Image preview</button><button id="runAllChecks">Run all project checks</button></div><div id="previewState" class="tiny" role="status">Preview engine ready. Open Visual preview to load the demo.</div>
+  <iframe id="htmlPreview" class="frame" title="Sandboxed HTML preview" sandbox="allow-scripts"></iframe>
+  <img id="imagePreview" class="frame hide" alt="Workspace image preview" style="object-fit:contain;background:#0a1118">
+  <pre id="codePreview" class="codepreview hide">Choose a workspace file.</pre>
+  <div id="checkOutput" class="output" style="margin-top:12px">Run project checks to see the results.</div><h3 style="margin:14px 0 7px">Preview console</h3><div id="previewConsole" class="output">Runtime messages from the sandboxed preview will appear here.</div>
+ </div>
+</section>
+
+<section id="builder" class="section">
+ <div class="grid">
+  <div class="card"><h2>Bedrock Forge builder</h2><p class="desc">Builds a structured Bedrock starter: a custom item or a hostile mob with a Behavior Pack, Resource Pack, generated pixel art, manifests, and a mini guide. This creates scaffolding, not a fully polished mod or dimension.</p>
+   <div class="field"><label for="addonName">Project name</label><input id="addonName" value="HuluAI Starter Addon" maxlength="70"></div><div class="field"><label for="addonKind">Starter type</label><select id="addonKind"><option value="item">Custom item + texture</option><option value="mob">Hostile mob scaffold + model + texture</option></select></div>
+   <div class="two"><div class="field"><label for="addonNamespace">Namespace</label><input id="addonNamespace" value="huluai" maxlength="24"></div><div class="field"><label for="itemId">Item ID</label><input id="itemId" value="crystal_shard" maxlength="32"></div></div>
+   <div class="field"><label for="itemDisplayName">In-game display name</label><input id="itemDisplayName" value="Crystal Shard" maxlength="60"></div><div class="two hide" id="mobSettings"><div class="field"><label for="mobHealth">Mob health</label><input id="mobHealth" type="number" min="1" max="500" step="1" value="28"></div><div class="field"><label for="mobDamage">Attack damage</label><input id="mobDamage" type="number" min="0" max="100" step="1" value="6"></div><div class="field"><label for="mobSpeed">Movement speed</label><input id="mobSpeed" type="number" min="0.05" max="1.5" step="0.05" value="0.25"></div><div class="field"><label for="mobAI">Behavior profile</label><select id="mobAI"><option value="melee">Hostile melee</option></select></div></div>
+   <div class="field"><label for="textureTheme">Texture theme</label><select id="textureTheme"><option value="crystal">Amethyst crystal</option><option value="toxic">Toxic green</option><option value="infernal">Infernal ember</option><option value="abyss">Abyssal blue</option><option value="solar">Solar gold</option></select></div>
+   <label class="checkline"><input id="includeRecipe" type="checkbox" checked> Include a shaped crafting recipe using vanilla materials.</label>
+   <label class="checkline"><input id="includeGuide" type="checkbox" checked> Include a mini guide with installation and in-game testing steps.</label>
+   <div class="row"><button id="buildAddon" class="primary grow">Build files in workspace</button><button id="downloadMcaddon" class="grow">Build & download .mcaddon</button></div>
+   <div id="builderOutput" class="output" style="margin-top:12px">Ready. Configure the item, then build.</div>
+  </div>
+  <div class="stack">
+   <div class="card"><h2>What the builder creates</h2><div class="featuregrid" style="margin-top:12px"><div class="feature"><b>Behavior Pack</b><span id="bpSummary">Manifest, custom item definition, optional recipe.</span></div><div class="feature"><b>Resource Pack</b><span id="rpSummary">Manifest, item atlas registration, generated PNG.</span></div><div class="feature"><b>Mini guide</b><span id="guideSummary">Install steps, item test, recipe test, troubleshooting.</span></div></div>
+    <div class="notice">A custom dimension needs its own supported world/dimension registration plus a tested travel and return mechanism. This builder does not falsely label an item/mob starter as a complete dimension mod.</div>
+   </div>
+   <div class="card"><h2>Build workflow</h2><p class="desc">After creating the files, inspect them in Workspace, use Run all project checks, then import the .mcaddon into Minecraft Bedrock to test it in-game.</p><div id="buildChecklist" class="output">1. Configure item details
+2. Build starter pack
+3. Run static checks
+4. Import into Minecraft
+5. Test item, texture, and recipe in a new test world</div></div>
+  </div>
+ </div>
+</section>
+
+<section id="apps" class="section">
+ <div class="card"><h2>Essential creation apps</h2><p class="desc">These are real apps the AI workflow can create files for or hand off to a human. A web page cannot silently install or launch Windows applications.</p>
+  <div class="toolgrid">
+   <article class="tool"><div class="tooltop"><div class="toolicon">🧩</div><div><h3>bridge.</h3><span class="tiny">Bedrock add-on editor</span></div></div><p>Inspect add-on packs, items, entities, recipes, and JSON files with an editor designed for Bedrock content.</p><div class="toollinks"><a href="https://bridge-core.app/" target="_blank" rel="noopener">Website / downloads ↗</a><a href="https://editor.bridge-core.app/" target="_blank" rel="noopener">Web editor ↗</a></div></article>
+   <article class="tool"><div class="tooltop"><div class="toolicon">🧊</div><div><h3>Blockbench</h3><span class="tiny">3D models and animations</span></div></div><p>Create Bedrock entity models, UV maps, textures, and animations.</p><div class="toollinks"><a href="https://www.blockbench.net/downloads" target="_blank" rel="noopener">Free Windows download ↗</a></div></article>
+   <article class="tool"><div class="tooltop"><div class="toolicon">{ }</div><div><h3>Visual Studio Code</h3><span class="tiny">Code and JSON editor</span></div></div><p>Edit JavaScript, JSON, scripts, and larger add-on projects. Add the appropriate Bedrock extension if needed.</p><div class="toollinks"><a href="https://code.visualstudio.com/Download" target="_blank" rel="noopener">Free Windows download ↗</a><a href="https://marketplace.visualstudio.com/" target="_blank" rel="noopener">Extensions ↗</a></div></article>
+   <article class="tool"><div class="tooltop"><div class="toolicon">🎨</div><div><h3>Krita</h3><span class="tiny">2D textures and artwork</span></div></div><p>Draw and edit pixel art, item icons, mob skins, and other 2D assets.</p><div class="toollinks"><a href="https://krita.org/en/download/" target="_blank" rel="noopener">Free Windows download ↗</a></div></article>
+   <article class="tool"><div class="tooltop"><div class="toolicon">⛏️</div><div><h3>Minecraft Bedrock</h3><span class="tiny">Actual in-game testing</span></div></div><p>Only a real game test can prove whether a pack imports and behaves correctly.</p><div class="toollinks"><a href="https://www.minecraft.net/" target="_blank" rel="noopener">Official Minecraft site ↗</a></div></article>
+   <article class="tool"><div class="tooltop"><div class="toolicon">🖥️</div><div><h3>Windows Agent (planned)</h3><span class="tiny">Desktop app control</span></div></div><p>A separate trusted local agent is needed before HuluAI can read local project folders or launch installed applications.</p><div class="toollinks"><span class="badge">Not connected</span></div></article>
+  </div>
+ </div>
+</section>
+
+<section id="connection" class="section">
+ <div class="grid">
+  <div class="card"><h2>Connect HuluAI model API</h2><p class="desc">Enter the base URL of your running backend. The page calls GET /health and POST /chat. Your server must allow requests from this website (CORS).</p>
+   <div class="field"><label for="modelApiUrl">Model API base URL</label><input id="modelApiUrl" placeholder="https://your-huluai-api.example.com"></div>
+   <div class="row"><button id="saveModelApi" class="primary grow">Save connection</button><button id="testModelApi" class="grow">Test /health</button><button id="disconnectApi" class="danger">Disconnect</button></div>
+   <div id="connectionOutput" class="output" style="margin-top:12px">No API URL configured.</div>
+  </div>
+  <div class="card"><h2>What the backend needs to do</h2><p class="desc">The UI cannot train or improve weights by itself. Connect it to your real training/model runtime before expecting model learning.</p>
+   <div class="output">GET /health
+Should return HTTP 200 and a small JSON status.
+
+POST /chat
+Request includes: message, prompt, workspace_files.
+Response may include: response, reply, output, and optional files: [{ name, content }].
+
+Training
+Requires a separate authenticated training service or notebook/runtime. This website does not run model training or save model checkpoints.</div>
+   <div class="notice">Do not put private API keys in this public GitHub Pages website. Keep secrets on a server. Only connect to a backend you control and trust.</div>
+  </div>
+ </div>
+</section>
+<div class="foot">HuluAI Virtual Computer V3 Bedrock Forge · Browser workspace, not a full Windows VM. In-game checks are still required for Minecraft compatibility.</div>
+</main>
+</div>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const WORKSPACE_KEY = 'huluai_vc_v3_workspace';
+const API_KEY = 'huluai_vc_api_url';
+let files = [];
+let current = null;
+let lastHtmlFile = null;
+let editorDirty = false;
+let unsavedBinary = false;
+const now = () => new Date().toISOString();
+const ext = name => (String(name).split('.').pop() || '').toLowerCase();
+const basename = name => String(name).split('/').pop();
+function safeName(raw){let name=String(raw||'').trim().replace(/\\/g,'/').replace(/^\.\//,'');if(!name||name.startsWith('/')||name.split('/').some(p=>p==='..')||! /^[\w .()\-\/]+$/.test(name))throw new Error('Use a relative file path with letters, numbers, spaces, dots, underscores, parentheses, and hyphens.');return name;}
+function uid(){if(window.crypto&&typeof crypto.randomUUID==='function')return crypto.randomUUID();return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return(c==='x'?r:(r&3|8)).toString(16)})}
+function textBytes(s){return new TextEncoder().encode(String(s))}
+function asBytes(content){if(content instanceof Uint8Array)return content;if(content instanceof ArrayBuffer)return new Uint8Array(content);if(ArrayBuffer.isView(content))return new Uint8Array(content.buffer,content.byteOffset,content.byteLength);const m=String(content).match(/^data:[^;,]+;base64,([\s\S]*)$/);if(m){const raw=atob(m[1]),out=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)out[i]=raw.charCodeAt(i);return out}return textBytes(content)}
+function isBinary(f){return /^data:[^;,]+;base64,/.test(f.content||'')}
+function downloadBlob(name,bytes,mime='application/octet-stream'){const blob=bytes instanceof Blob?bytes:new Blob([bytes],{type:mime});const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)}
+function downloadText(name,content,mime='text/plain;charset=utf-8'){downloadBlob(name,textBytes(content),mime)}
+function setOutput(id,message,kind=''){const el=$(id);el.textContent=message;el.className='output'+(kind?' '+kind:'')}
+function saveStore(){try{localStorage.setItem(WORKSPACE_KEY,JSON.stringify(files));$('storageNote').textContent='Workspace saved locally · '+files.length+' files';$('storageNote').style.color='var(--green)';updateStatus();return true}catch(e){$('storageNote').textContent='Could not persist all files in localStorage. Export a workspace ZIP for backup.';$('storageNote').style.color='var(--yellow)';return false}}
+function updateStatus(){const api=(localStorage.getItem(API_KEY)||'').replace(/\/+$/,'');$('modelPill').className='pill '+(api?'warn':'warn');$('modelPill').textContent=api?'● Model API configured · not yet verified':'● Model API not connected';$('filesPill').textContent='● '+files.length+' workspace file'+(files.length===1?'':'s')}
+function selected(){return files.find(f=>f.name===current)||null}
+function addFile(name,content){if(editorDirty)saveCurrent();name=safeName(name);const found=files.findIndex(f=>f.name===name);const obj={name,content:String(content??''),updatedAt:now()};if(found>=0)files[found]=obj;else files.push(obj);current=name;if(['html','htm'].includes(ext(name)))lastHtmlFile=name;saveStore();renderFiles();showEditor();return obj}
+function renderFiles(){const list=$('fileList'),term=$('fileSearch').value.trim().toLowerCase();list.innerHTML='';const visible=files.filter(f=>f.name.toLowerCase().includes(term)).sort((a,b)=>a.name.localeCompare(b.name));if(!visible.length){const d=document.createElement('div');d.className='tiny';d.textContent=files.length?'No paths match this filter.':'No files yet. Use New file or the Bedrock builder.';list.appendChild(d)}visible.forEach(f=>{const b=document.createElement('button');b.className='fileitem'+(f.name===current?' active':'');b.title=f.name;const glyph=document.createElement('span');glyph.className='fileglyph';glyph.textContent=isBinary(f)?'▧':ext(f.name)==='json'?'{}':ext(f.name)==='html'?'◉':ext(f.name)==='md'?'M':'▤';const path=document.createElement('span');path.className='filepath';path.textContent=f.name;const type=document.createElement('span');type.className='fileext';type.textContent=isBinary(f)?'BIN':ext(f.name).toUpperCase();b.append(glyph,path,type);b.onclick=()=>{if(editorDirty)saveCurrent();current=f.name;if(isHtmlFile(f))lastHtmlFile=f.name;showEditor();renderFiles()};list.appendChild(b)});updateStatus()}
+function showEditor(){const f=selected(),ed=$('fileEditor');editorDirty=false;$('currentFileTitle').textContent=f?f.name:'No file selected';$('currentFileMeta').textContent=f?'Last saved '+new Date(f.updatedAt||now()).toLocaleString()+' · '+(isBinary(f)?'binary asset':'text file'):'Create or select a file';if(!f){ed.value='';ed.readOnly=false;setOutput('fileFeedback','Create or select a file first.');return}if(isBinary(f)){ed.value='[Binary image asset]\nThis file is stored as a data URL. Use Download file or Image preview to inspect it.';ed.readOnly=true;unsavedBinary=true}else{ed.value=f.content;ed.readOnly=false;unsavedBinary=false}setOutput('fileFeedback',isBinary(f)?'Binary asset selected. Use Image preview or Download file; text editing is disabled for this asset.':'Edits are saved when you click Save, switch files, switch tabs, preview, or run checks.');}
+function saveCurrent(){const f=selected();if(!f){setOutput('fileFeedback','Select or create a file first.','bad');return}if(isBinary(f)){setOutput('fileFeedback','This is a binary asset; use the builder to regenerate it or Download file to save it.','warn');return}f.content=$('fileEditor').value;f.updatedAt=now();editorDirty=false;saveStore();renderFiles();showEditor();setOutput('fileFeedback','Saved '+f.name+' in this browser workspace.','good')}
+function openTab(id){document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));if(id==='preview')showPreview()}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{if(editorDirty)saveCurrent();openTab(b.dataset.tab)}));
+$('fileEditor').addEventListener('input',()=>{const f=selected();if(f&&!isBinary(f)){editorDirty=true;setOutput('fileFeedback','Unsaved edits in '+f.name+'. They will be saved automatically when you switch files/tabs, preview, or run checks.','warn')}});
+$('newFile').onclick=()=>{const name=prompt('File path, including extension (example: my_project/README.md):');if(name===null)return;try{if(files.some(f=>f.name===name.trim())){if(!confirm('That file exists. Replace it?'))return}addFile(name,'');setOutput('fileFeedback','Created '+name+'. Edit it and click Save.','good')}catch(e){setOutput('fileFeedback',e.message,'bad')}};
+$('saveFile').onclick=saveCurrent;
+$('deleteFile').onclick=()=>{const f=selected();if(!f){setOutput('fileFeedback','Select a file first.','bad');return}if(!confirm('Delete '+f.name+' from the browser workspace?'))return;files=files.filter(x=>x.name!==f.name);current=files[0]?.name||null;saveStore();renderFiles();showEditor();setOutput('fileFeedback','File deleted.','good')};
+$('renameFile').onclick=()=>{const f=selected();if(!f){setOutput('fileFeedback','Select a file first.','bad');return}const name=prompt('New relative path:',f.name);if(!name||name===f.name)return;try{const safe=safeName(name);if(files.some(x=>x.name===safe)){setOutput('fileFeedback','A file with that path already exists.','bad');return}f.name=safe;f.updatedAt=now();current=safe;saveStore();renderFiles();showEditor();setOutput('fileFeedback','Renamed file to '+safe+'.','good')}catch(e){setOutput('fileFeedback',e.message,'bad')}};
+$('duplicateFile').onclick=()=>{const f=selected();if(!f){setOutput('fileFeedback','Select a file first.','bad');return}const extname=f.name.includes('.')?'.'+f.name.split('.').pop():'';const copy=f.name.slice(0,f.name.length-extname.length)+'_copy'+extname;try{addFile(copy,f.content);setOutput('fileFeedback','Duplicated as '+copy+'.','good')}catch(e){setOutput('fileFeedback',e.message,'bad')}};
+$('downloadFile').onclick=()=>{const f=selected();if(!f){setOutput('fileFeedback','Select a file first.','bad');return}if(isBinary(f)){const b=asBytes(f.content);downloadBlob(basename(f.name),b,'application/octet-stream')}else downloadText(basename(f.name),f.content)};
+$('fileSearch').addEventListener('input',renderFiles);$('refreshFiles').onclick=renderFiles;
+$('templateMenu').onclick=()=>{
+ const choice=prompt('Create template:\n1 = HTML preview test\n2 = Bedrock manifest pair\n3 = Custom item JSON\n4 = Crafting recipe JSON\n5 = Behavior entity scaffold\n6 = .mcfunction\nEnter a number from 1 to 6:');if(choice===null)return;
+ const ns='huluai',id='sample_item';let name,content;
+ if(choice.trim()==='1'){name='templates/preview-test.html';content=demoHtml();}
+ else if(choice.trim()==='2'){const a=uid(),b=uid(),c=uid(),d=uid();name='templates/manifest-template.json';content=JSON.stringify({behavior:{format_version:2,header:{name:'Example Behavior Pack',description:'Template only',uuid:a,version:[1,0,0],min_engine_version:[1,20,80]},modules:[{type:'data',uuid:b,version:[1,0,0]}]},resource:{format_version:2,header:{name:'Example Resource Pack',description:'Template only',uuid:c,version:[1,0,0],min_engine_version:[1,20,80]},modules:[{type:'resources',uuid:d,version:[1,0,0]}]}},null,2);}
+ else if(choice.trim()==='3'){name='templates/items/sample_item.json';content=JSON.stringify({format_version:'1.20.50','minecraft:item':{description:{identifier:ns+':'+id,menu_category:{category:'items'}},components:{'minecraft:display_name':{value:'Sample Item'},'minecraft:max_stack_size':64,'minecraft:icon':{texture:ns+':'+id}}}},null,2);}
+ else if(choice.trim()==='4'){name='templates/recipes/sample_item.json';content=JSON.stringify({format_version:'1.20.10','minecraft:recipe_shaped':{description:{identifier:ns+':'+id+'_recipe'},tags:['crafting_table'],pattern:[' A ',' B ',' A '],key:{A:{item:'minecraft:amethyst_shard'},B:{item:'minecraft:iron_ingot'}},result:{item:ns+':'+id,count:1}}},null,2);}
+ else if(choice.trim()==='5'){name='templates/entities/sample_mob.json';content=JSON.stringify({format_version:'1.20.50','minecraft:entity':{description:{identifier:'huluai:sample_mob',is_spawnable:true,is_summonable:true,is_experimental:false},components:{'minecraft:type_family':{family:['sample_mob','monster']},'minecraft:health':{value:20,max:20},'minecraft:movement':{value:0.25},'minecraft:movement.basic':{},'minecraft:navigation.walk':{can_path_over_water:true},'minecraft:jump.static':{},'minecraft:attack':{damage:4},'minecraft:physics':{},'minecraft:pushable':{is_pushable:true,is_pushable_by_piston:true}},component_groups:{},events:{}}},null,2);}
+ else if(choice.trim()==='6'){name='functions/huluai_example.mcfunction';content='# Example function file\n# This is a starter command list. Test commands in a development world.\nsay HuluAI test function loaded\n';}
+ else {setOutput('fileFeedback','No template created. Enter a number from 1 to 6.','warn');return}
+ try{addFile(name,content);setOutput('fileFeedback','Created template '+name+'. Review the placeholder namespace/identifier before using it in a pack.','good');}catch(e){setOutput('fileFeedback','Template error: '+e.message,'bad')}
+};
+
+$('importFilesBtn').onclick=()=>{if(editorDirty)saveCurrent();$('importFilesInput').click()};
+$('importFilesInput').addEventListener('change',async ev=>{const chosen=[...ev.target.files];if(!chosen.length)return;let count=0;for(const f of chosen){let name=safeName(f.webkitRelativePath||f.name);try{let content;if(f.type.startsWith('image/')||f.type==='application/octet-stream'){content=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(f)})}else content=await f.text();addFile(name,content);count++}catch(e){console.warn(e)}}saveStore();renderFiles();showEditor();setOutput('fileFeedback','Imported '+count+' file(s). Binary images are preserved as data URLs.','good');ev.target.value=''});
+
+// Create a standards-compatible uncompressed ZIP archive without external libraries.
+const crcTable=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=(c&1)?(0xedb88320^(c>>>1)):(c>>>1);t[n]=c>>>0}return t})();
+function crc32(bytes){let c=0xffffffff;for(const b of bytes)c=crcTable[(c^b)&255]^(c>>>8);return(c^0xffffffff)>>>0}
+function u16(n){return[n&255,(n>>>8)&255]}function u32(n){return[n&255,(n>>>8)&255,(n>>>16)&255,(n>>>24)&255]}
+function zipStoredBytes(entries){if(entries.length>65535)throw new Error('ZIP64 is not supported by this browser packager.');const local=[],central=[];let offset=0;const dt=new Date(),tm=(dt.getHours()<<11)|(dt.getMinutes()<<5)|Math.floor(dt.getSeconds()/2),da=((Math.max(1980,dt.getFullYear())-1980)<<9)|((dt.getMonth()+1)<<5)|dt.getDate();for(const entry of entries){const name=textBytes(safeName(entry.name)),data=asBytes(entry.content),crc=crc32(data);if(data.length>0xffffffff||offset>0xffffffff)throw new Error('File is too large for the current ZIP32 exporter.');const lh=[0x50,0x4b,0x03,0x04,...u16(20),...u16(0x0800),...u16(0),...u16(tm),...u16(da),...u32(crc),...u32(data.length),...u32(data.length),...u16(name.length),...u16(0)];local.push(new Uint8Array([...lh,...name]));local.push(data);const ch=[0x50,0x4b,0x01,0x02,...u16(20),...u16(20),...u16(0x0800),...u16(0),...u16(tm),...u16(da),...u32(crc),...u32(data.length),...u32(data.length),...u16(name.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(0),...u32(offset)];central.push(new Uint8Array([...ch,...name]));offset+=lh.length+name.length+data.length}const centralOffset=offset;let centralSize=0;for(const b of central)centralSize+=b.length;const end=new Uint8Array([0x50,0x4b,0x05,0x06,...u16(0),...u16(0),...u16(entries.length),...u16(entries.length),...u32(centralSize),...u32(centralOffset),...u16(0)]);const parts=[...local,...central,end],total=parts.reduce((sum,part)=>sum+part.length,0),out=new Uint8Array(total);let cursor=0;for(const part of parts){out.set(part,cursor);cursor+=part.length}return out}function zipStored(entries){return new Blob([zipStoredBytes(entries)],{type:'application/zip'})}
+$('exportWorkspace').onclick=()=>{if(editorDirty)saveCurrent();if(!files.length){alert('There are no files to export yet.');return}try{const blob=zipStored(files.map(f=>({name:f.name,content:f.content})));downloadBlob('huluai-virtual-computer-workspace.zip',blob);setOutput('fileFeedback','Exported workspace ZIP with '+files.length+' files.','good')}catch(e){setOutput('fileFeedback','ZIP export failed: '+e.message,'bad')}};
+
+// V3 preview engine: automatically finds an HTML document, previews unsaved editor text,
+// resolves workspace-local CSS/JS/images, and reports runtime errors from a sandbox.
+let lastPreviewDocument = '';
+let previewMessages = [];
+function isHtmlFile(f){return !!f && ['html','htm'].includes(ext(f.name)) && !isBinary(f)}
+function getHtmlFiles(){return files.filter(isHtmlFile).sort((a,b)=>{
+  const pa=a.name.toLowerCase().includes('preview-demo.html')?-1:0;
+  const pb=b.name.toLowerCase().includes('preview-demo.html')?-1:0;
+  return pa-pb || a.name.localeCompare(b.name);
+})}
+function demoHtml(){return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HuluAI Preview Test</title><style>body{font:16px system-ui;margin:0;padding:28px;background:#0b1420;color:#eef5ff}main{max-width:760px;margin:auto;border:1px solid #33455c;background:#111e2d;border-radius:18px;padding:24px}button{background:#9af6bb;color:#08160e;border:0;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer}.pill{color:#9af6bb}code{color:#91baff}</style></head><body><main><p class="pill">● PREVIEW ENGINE TEST</p><h1>Preview is working ✅</h1><p>This page is running inside HuluAI Virtual Computer's isolated preview frame.</p><button id="test">Test interaction</button><p id="result">Waiting for button test…</p><p><small>Try clicking the button. If it changes this message, JavaScript is running too.</small></p></main><script>document.getElementById('test').addEventListener('click',()=>{document.getElementById('result').textContent='Success — HTML, CSS, and JavaScript are running.'})<\/script></body></html>`}
+function ensureHtmlSelected(){
+  let f=selected();
+  if(isHtmlFile(f)){lastHtmlFile=f.name;return f;}
+  const candidates=getHtmlFiles();
+  const remembered=candidates.find(x=>x.name===lastHtmlFile);
+  const folder=(f?.name||'').includes('/')?(f.name.split('/').slice(0,-1).join('/')+'/'):'';
+  const nearby=folder?candidates.find(x=>x.name.startsWith(folder)):null;
+  const chosen=remembered||nearby||candidates.find(x=>x.name!=='examples/preview-demo.html')||candidates[0];
+  if(chosen){current=chosen.name;lastHtmlFile=chosen.name;showEditor();renderFiles();setOutput('fileFeedback','Selected '+current+' automatically for preview.','good');return selected()}
+  const name='examples/preview-demo.html';
+  const created=addFile(name,demoHtml());
+  setOutput('fileFeedback','Created a built-in preview test because this workspace had no HTML files.','good');
+  return created;
+}
+function resolvePath(baseFile,reference){
+  const ref=String(reference||'').trim(); if(!ref) return null;
+  if(/^(?:[a-z]+:|\/\/|#|data:|blob:|javascript:|mailto:)/i.test(ref)) return null;
+  const clean=ref.split('#')[0].split('?')[0]; if(!clean)return null;
+  const parts=clean.startsWith('/')?[]:baseFile.split('/').slice(0,-1);
+  for(const p of clean.replace(/^\//,'').split('/')){if(!p||p==='.')continue;if(p==='..'){if(parts.length)parts.pop();else return null}else parts.push(p)}
+  return parts.join('/');
+}
+function dataUrlForText(text,mime){return 'data:'+mime+';charset=utf-8;base64,'+btoa(unescape(encodeURIComponent(text)))}
+function workspaceAssetUrl(path,mimeHint){
+  const f=files.find(x=>x.name===path); if(!f)return null;
+  if(isBinary(f)) return f.content;
+  const e=ext(f.name); const mime=mimeHint||(e==='css'?'text/css':e==='js'?'text/javascript':e==='svg'?'image/svg+xml':e==='json'?'application/json':'text/plain');
+  return dataUrlForText(f.content,mime);
+}
+function resolvePreviewAssets(html,filePath){
+  let out=html;
+  // Replace workspace-local src/href URLs with data URLs so the iframe can preview files
+  // without needing a server to serve the browser-local workspace directory.
+  out=out.replace(/\b(src|href)\s*=\s*(["'])([^"']+)\2/gi,(whole,attr,q,ref)=>{
+    const path=resolvePath(filePath,ref); if(!path)return whole;
+    const f=files.find(x=>x.name===path); if(!f)return whole;
+    const e=ext(path); let mime=e==='css'?'text/css':e==='js'?'text/javascript':e==='svg'?'image/svg+xml':e==='png'?'image/png':e==='jpg'||e==='jpeg'?'image/jpeg':e==='gif'?'image/gif':e==='webp'?'image/webp':e==='woff2'?'font/woff2':e==='woff'?'font/woff':e==='html'||e==='htm'?'text/html':undefined;
+    if(e==='css' && !isBinary(f)) return `${attr}=${q}${dataUrlForText(f.content,'text/css')}${q}`;
+    const url=workspaceAssetUrl(path,mime); return url?`${attr}=${q}${url}${q}`:whole;
+  });
+  // Basic local CSS url(...) mapping for fonts and background images.
+  out=out.replace(/url\(\s*(["']?)([^)"']+)\1\s*\)/gi,(whole,q,ref)=>{
+    const path=resolvePath(filePath,ref); if(!path)return whole; const url=workspaceAssetUrl(path); return url?`url("${url}")`:whole;
+  });
+  return out;
+}
+function injectPreviewReporter(html){
+  const reporter=`<script>(function(){function send(kind,message){try{parent.postMessage({__huluaiPreview:true,kind:kind,message:String(message||'')},'*')}catch(e){}}window.addEventListener('error',function(e){send('error',(e.message||'Script error')+' at '+(e.filename||'inline')+':'+(e.lineno||0))});window.addEventListener('unhandledrejection',function(e){send('error','Unhandled promise: '+(e.reason&&e.reason.message||e.reason||'unknown'))});var old=console.log;console.log=function(){try{old.apply(console,arguments)}catch(e){}send('log',Array.from(arguments).map(function(x){try{return typeof x==='string'?x:JSON.stringify(x)}catch(e){return String(x)}}).join(' '))};window.addEventListener('load',function(){send('ready',document.title||'HTML loaded')});})();<\/script>`;
+  if(/<\/head\s*>/i.test(html)) return html.replace(/<\/head\s*>/i,reporter+'</head>');
+  if(/<html[^>]*>/i.test(html)) return html.replace(/<html[^>]*>/i,m=>m+'<head>'+reporter+'</head>');
+  return '<!doctype html><html><head><meta charset="utf-8">'+reporter+'</head><body>'+html+'</body></html>';
+}
+function reportPreviewMessage(kind,message){
+  const stamp=new Date().toLocaleTimeString();
+  previewMessages.push('['+stamp+'] '+kind.toUpperCase()+': '+message);
+  if(previewMessages.length>60)previewMessages=previewMessages.slice(-60);
+  setOutput('previewConsole',previewMessages.join('\n'),kind==='error'?'bad':kind==='ready'?'good':'');
+  if(kind==='error') $('previewState').textContent='Preview loaded with JavaScript error(s). See Preview console.';
+  if(kind==='ready') $('previewState').textContent='Preview loaded successfully: '+message;
+}
+window.addEventListener('message',event=>{if(event.source!==$('htmlPreview').contentWindow)return;const d=event.data;if(d&&d.__huluaiPreview)reportPreviewMessage(d.kind||'log',d.message||'')});
+function showVisual(){
+  const f=ensureHtmlSelected(); if(!f){setOutput('checkOutput','No HTML file is available to preview.','bad');return}
+  let source=$('fileEditor').value;
+  // If the selected file is a binary placeholder, use its stored text content only for HTML files.
+  if(isBinary(f)){setOutput('checkOutput','The selected HTML file is stored as a binary asset and cannot be rendered as source.','bad');return}
+  const resolved=resolvePreviewAssets(source,f.name);
+  lastPreviewDocument=injectPreviewReporter(resolved);
+  const frame=$('htmlPreview'); frame.classList.remove('hide');$('codePreview').classList.add('hide');$('imagePreview').classList.add('hide');
+  previewMessages=[];setOutput('previewConsole','Loading preview…');$('previewState').textContent='Loading '+f.name+'…';setOutput('checkOutput','Rendering '+f.name+' inside a sandboxed iframe. Local workspace CSS, JS and images are resolved when available.','warn');
+  frame.onload=()=>{if($('previewState').textContent.startsWith('Loading'))$('previewState').textContent='Preview frame loaded. Waiting for page runtime report…';};
+  frame.srcdoc=lastPreviewDocument;
+}
+function showCode(){let f=selected();if(!f||isBinary(f)){f=ensureHtmlSelected()}
+  $('htmlPreview').classList.add('hide');$('imagePreview').classList.add('hide');$('codePreview').classList.remove('hide');$('codePreview').textContent=f?(isBinary(f)?'[Binary asset: '+f.name+']':(f.name===current?$('fileEditor').value:f.content)):'Choose a workspace file.';setOutput('checkOutput',f?'Showing source for '+f.name+'.':'No file selected.');}
+function showImage(){let f=selected();if(!f||!(isBinary(f)&&String(f.content).startsWith('data:image/'))){f=files.find(x=>isBinary(x)&&String(x.content).startsWith('data:image/'))||null; if(f){current=f.name;showEditor();renderFiles()}}
+  if(!f){setOutput('checkOutput','No image asset is selected or stored in the workspace. Import an image or use the Bedrock builder.','warn');return}
+  $('htmlPreview').classList.add('hide');$('codePreview').classList.add('hide');$('imagePreview').classList.remove('hide');$('imagePreview').src=f.content;setOutput('checkOutput','Displaying image asset '+f.name+'.','good');}
+function showPreview(){const f=selected();if(isHtmlFile(f)){showVisual();return}if(f&&isBinary(f)&&String(f.content).startsWith('data:image/')){showImage();return}showVisual()}
+function openPreviewTab(){if(editorDirty)saveCurrent();openTab('preview')}
+$('previewHtml').onclick=openPreviewTab;$('showFilePreview').onclick=()=>{if(editorDirty)saveCurrent();openTab('preview')};$('previewTabHtml').onclick=showVisual;$('previewTabCode').onclick=showCode;$('previewTabImage').onclick=showImage;
+$('refreshPreview').onclick=()=>{if(lastPreviewDocument){$('htmlPreview').srcdoc=lastPreviewDocument;$('previewState').textContent='Refreshing sandbox preview…';setOutput('previewConsole','Preview refreshed.');}else showVisual()};
+$('popoutPreview').onclick=()=>{if(!lastPreviewDocument)showVisual();if(!lastPreviewDocument)return;try{const safeSrcdoc=lastPreviewDocument.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'),wrapper='<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HuluAI Sandboxed Preview</title><style>html,body,iframe{margin:0;width:100%;height:100%;border:0;background:#0a1118}body{height:100vh}</style></head><body><iframe title="Sandboxed project preview" sandbox="allow-scripts" srcdoc="'+safeSrcdoc+'"></iframe></body></html>',blob=new Blob([wrapper],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob),win=window.open(url,'_blank');if(!win){URL.revokeObjectURL(url);setOutput('checkOutput','The browser blocked the new tab. Allow pop-ups for this site, or use the embedded preview.','warn');return}try{win.opener=null}catch(e){}setOutput('checkOutput','Opened a separate tab with the project still inside a sandboxed iframe.','good');setTimeout(()=>URL.revokeObjectURL(url),60000)}catch(e){setOutput('checkOutput','Could not open preview tab: '+e.message,'bad')}};
+$('validateJson').onclick=()=>{const f=selected();if(!f){setOutput('fileFeedback','Select a file first.','bad');return}if(ext(f.name)!=='json'){setOutput('fileFeedback','Selected file is not .json.','warn');return}try{const data=JSON.parse($('fileEditor').value);setOutput('fileFeedback','PASS: valid JSON syntax. Top-level type: '+(Array.isArray(data)?'array':data===null?'null':typeof data)+'.','good')}catch(e){setOutput('fileFeedback','JSON syntax error: '+e.message,'bad')}};
+function manifestProblems(m){const out=[];if(m.format_version===undefined)out.push('Missing format_version');if(!m.header||typeof m.header!=='object')out.push('Missing header object');else{if(!m.header.name)out.push('Missing header.name');if(!m.header.uuid)out.push('Missing header.uuid');else if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(m.header.uuid))out.push('header.uuid is not a valid UUID');if(!Array.isArray(m.header.version)||m.header.version.length!==3)out.push('header.version should be [major, minor, patch]')}if(!Array.isArray(m.modules)||!m.modules.length)out.push('Missing modules array');else m.modules.forEach((x,i)=>{if(!x.type)out.push('Module '+i+' missing type');if(!x.uuid)out.push('Module '+i+' missing uuid');else if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(x.uuid))out.push('Module '+i+' uuid is not valid');if(!Array.isArray(x.version)||x.version.length!==3)out.push('Module '+i+' version should be [major, minor, patch]')});return out}
+$('validateManifest').onclick=()=>{const f=selected();if(!f||ext(f.name)!=='json'||!basename(f.name).toLowerCase().includes('manifest')){setOutput('fileFeedback','Select a file whose name includes manifest and has a .json extension.','warn');return}try{const m=JSON.parse($('fileEditor').value),problems=manifestProblems(m);setOutput('fileFeedback',problems.length?'Manifest structure issues:\n• '+problems.join('\n• '):'PASS: basic manifest structure and UUID formatting look good. Dependencies, compatibility, and in-game behavior still need testing. ',problems.length?'bad':'good')}catch(e){setOutput('fileFeedback','Manifest JSON error: '+e.message,'bad')}};
+function runChecks(){
+ if(editorDirty)saveCurrent();
+ const results=[],parsed=new Map(),uuidOwners=new Map(),manifestByUuid=new Map();
+ const count={pass:0,warn:0,fail:0,info:0};
+ const add=(level,msg)=>{results.push(level.toUpperCase()+' '+msg);count[level]++};
+ if(!files.length)add('warn','No workspace files.');
+ for(const f of files){
+  if(ext(f.name)==='json'&&!isBinary(f)){
+   try{const data=JSON.parse(f.content);parsed.set(f.name,data);add('pass','JSON syntax: '+f.name);
+    if(basename(f.name).toLowerCase()==='manifest.json'){
+     const probs=manifestProblems(data);if(probs.length)probs.forEach(x=>add('fail','Manifest '+f.name+': '+x));else add('pass','Basic manifest structure: '+f.name);
+     const headerId=data.header?.uuid;if(headerId)manifestByUuid.set(String(headerId).toLowerCase(),f.name);
+     const ids=[headerId,...(Array.isArray(data.modules)?data.modules.map(m=>m.uuid):[])].filter(Boolean);
+     for(const id of ids){const key=String(id).toLowerCase();if(uuidOwners.has(key))add('fail','Duplicate UUID '+id+' in '+uuidOwners.get(key)+' and '+f.name);else uuidOwners.set(key,f.name)}
+     if(data.format_version!==2)add('warn','Modern stable add-ons usually use manifest format_version 2: '+f.name);
+    }
+   }catch(e){add('fail','Invalid JSON in '+f.name+': '+e.message)}
+  }
+  if(['html','htm'].includes(ext(f.name)))add(/<html[\s>]/i.test(f.content)&&/<\/html\s*>/i.test(f.content)?'pass':'warn','HTML document tags: '+f.name);
+  if(f.name.endsWith('.png'))add(isBinary(f)&&String(f.content).startsWith('data:image/png;base64,iVBORw0KGgo')?'pass':isBinary(f)?'warn':'fail','PNG asset encoding: '+f.name);
+ }
+ // Validate dependency targets across the packs present in this project.
+ for(const [path,m] of parsed){if(basename(path).toLowerCase()!=='manifest.json')continue;for(const dep of (Array.isArray(m.dependencies)?m.dependencies:[])){if(dep.uuid&&!manifestByUuid.has(String(dep.uuid).toLowerCase()))add('warn','Dependency '+dep.uuid+' in '+path+' does not match a local pack header (it may be an external dependency).')}}
+ // Check item icon registrations against resource-pack atlas and png path.
+ const itemTextures=[];for(const [path,m] of parsed){if(basename(path)==='item_texture.json'&&m.texture_data)itemTextures.push({path,map:m.texture_data})}
+ for(const [path,m] of parsed){const item=m['minecraft:item'];if(!item)continue;const id=item.description?.identifier;if(!id){add('fail','Item identifier missing: '+path);continue}const icon=item.components?.['minecraft:icon'];const iconName=typeof icon==='string'?icon:(icon?.texture||icon?.textures?.default);if(iconName){const registered=itemTextures.some(t=>Object.prototype.hasOwnProperty.call(t.map,iconName));add(registered?'pass':'warn',registered?'Item icon registered: '+id:'Item icon '+iconName+' is not registered in an item_texture.json: '+path)}else add('warn','Item has no recognized minecraft:icon texture: '+path)}
+ for(const {path,map} of itemTextures){for(const [key,value] of Object.entries(map)){const raw=value?.textures;const tex=typeof raw==='string'?raw:raw?.default;if(!tex){add('warn','Texture map '+key+' has no textures path: '+path);continue}const expected=tex+'.png';const found=files.some(f=>f.name.endsWith('/'+expected)&&isBinary(f)&&String(f.content).startsWith('data:image/png;base64,'));add(found?'pass':'fail',found?'Item texture path resolves: '+expected:'Missing PNG for item texture '+key+': expected '+expected)}}
+ // Validate client entity -> geometry/texture and behavior entity matches.
+ const geometryIds=new Set();for(const [path,g] of parsed){if(!Array.isArray(g['minecraft:geometry']))continue;for(const geo of g['minecraft:geometry'])if(geo.description?.identifier)geometryIds.add(geo.description.identifier);}
+ for(const [path,client] of parsed){const ce=client['minecraft:client_entity'];if(!ce)continue;const d=ce.description||{},id=d.identifier;if(!id){add('fail','Client entity identifier missing: '+path);continue}const geoIds=Object.values(d.geometry||{});for(const geo of geoIds)add(geometryIds.has(geo)?'pass':'fail',geometryIds.has(geo)?'Geometry reference resolves: '+geo:'Missing geometry definition '+geo+' referenced by '+path);const textures=Object.values(d.textures||{});for(const tex of textures){const expected=tex+'.png',found=files.some(f=>f.name.endsWith('/'+expected)&&isBinary(f)&&String(f.content).startsWith('data:image/png;base64,'));add(found?'pass':'fail',found?'Entity texture resolves: '+expected:'Missing entity texture '+expected+' referenced by '+path)}const entName=String(id).split(':').pop()+'.json';const bpEntity=files.find(f=>basename(f.name)===entName&&f.name.includes('/entities/'));add(bpEntity?'pass':'warn',bpEntity?'Behavior entity found for '+id:'No matching Behavior entity file for '+id)}
+ const allText=files.filter(f=>!isBinary(f)).map(f=>f.content).join('\n');
+ if(files.some(f=>f.name.endsWith('manifest.json'))&&files.some(f=>f.name.endsWith('item_texture.json')))add('info','Both manifests and an item texture map exist; full Bedrock compatibility still requires an in-game test.');
+ add('info','These are static checks. They cannot run Minecraft, verify every schema or render model, or prove gameplay works.');
+ const summary='RESULTS: '+count.pass+' pass · '+count.warn+' warning · '+count.fail+' fail\n\n'+results.join('\n');
+ openTab('preview');setOutput('checkOutput',summary,count.fail?'bad':count.warn?'warn':'good');
+}
+$('runAllChecks').onclick=runChecks;
+
+// Pure local command handler. This is deterministic tooling, not a substitute for model reasoning.
+$('runLocalTask').onclick=()=>{const q=$('instruction').value.trim(),lower=q.toLowerCase();if(!q){setOutput('taskOutput','Enter a local command. Type “help” for supported commands.','warn');return}if(/\bhelp\b|what can you do/.test(lower)){setOutput('taskOutput','LOCAL COMMANDS\n• help — show this list\n• list files — show workspace paths\n• inspect files — summarize file types\n• check / validate project — run static checks\n• preview current HTML — open selected HTML preview\n• create/build/generate starter addon — opens the Bedrock builder\n\nOther natural-language coding requests require a connected model API.','good');return}if(/list files|show files|file list/.test(lower)){setOutput('taskOutput',files.length?files.map(f=>f.name+' ('+(isBinary(f)?'binary':f.content.length+' chars')+')').join('\n'):'Workspace is empty.','good');return}if(/inspect files|summarize files/.test(lower)){const counts={};files.forEach(f=>{const k=isBinary(f)?'binary':ext(f.name)||'no extension';counts[k]=(counts[k]||0)+1});setOutput('taskOutput','Workspace summary\nTotal files: '+files.length+'\n'+Object.entries(counts).map(([k,v])=>k+': '+v).join('\n'),'good');return}if(/\b(check|validate|lint|test)\b/.test(lower)&&/project|files|manifest|json|workspace|addon|pack/.test(lower)){runChecks();setOutput('taskOutput','Local project checks finished. See Preview & checks for the detailed report.','good');return}if(/preview/.test(lower)){openTab('preview');showVisual();setOutput('taskOutput','Opened the HTML preview. If the selected file was not HTML, the preview engine selected an HTML file automatically.','good');return}if(/(create|build|generate|make).*(mob|entity|creature)/.test(lower)){openTab('builder');$('addonKind').value='mob';updateBuilderMode();setOutput('taskOutput','Opened the hostile-mob scaffold. Set the identifier, health, damage, and speed, then build and run all checks.','good');return}if(/(create|build|generate|make).*(item|recipe|texture)/.test(lower)){openTab('builder');$('addonKind').value='item';updateBuilderMode();setOutput('taskOutput','Opened the custom-item builder. Set the item identifier and theme, then build and run all checks.','good');return}if(/(create|build|generate|make).*(starter )?(addon|mcaddon|bedrock pack)/.test(lower)){openTab('builder');setOutput('taskOutput','Opened the Bedrock Forge builder. Choose Custom item or Hostile mob; dimensions require a separately implemented, tested generation system.','good');return}setOutput('taskOutput','This local command is not a supported deterministic operation. Connect HuluAI in Model connection to run open-ended instructions. No changes were made.','warn')};
+
+// Small deterministic pixel-art texture generator; resulting PNG data URLs are packaged as binary files.
+const themes={crystal:['#170e31','#532d92','#ab79f1','#e2d7ff','#ffffff'],toxic:['#0d2016','#1d6d42','#54db77','#b5ff7a','#f0ffe6'],infernal:['#2a0e14','#8d202a','#ed4b37','#ffad42','#fff0a5'],abyss:['#071c31','#164a75','#288ec1','#81e3ff','#e6fbff'],solar:['#35220a','#9a5f13','#efb62e','#fff078','#fff8d5']};
+function textureData(theme,size=16){const pal=themes[theme]||themes.crystal,canvas=document.createElement('canvas');canvas.width=16;canvas.height=16;const c=canvas.getContext('2d');c.clearRect(0,0,16,16);const pts=[];for(let y=2;y<14;y++)for(let x=2;x<14;x++){const dx=Math.abs(x-7.5),dy=Math.abs(y-7.5);if(dx*0.8+dy<8)pts.push([x,y])}for(const [x,y] of pts){let color=pal[1];if(x+y<13)color=pal[2];if(x<7&&y<8)color=pal[3];if((x+y)%5===0)color=pal[4];if(x===7||x===8)color=pal[4];c.fillStyle=color;c.fillRect(x,y,1,1)}c.fillStyle=pal[0];c.fillRect(4,13,8,1);c.fillRect(5,14,6,1);if(size===16)return canvas.toDataURL('image/png');const big=document.createElement('canvas');big.width=size;big.height=size;const b=big.getContext('2d');b.imageSmoothingEnabled=false;b.fillStyle='#0b1420';b.fillRect(0,0,size,size);b.drawImage(canvas,0,0,size,size);b.fillStyle=pal[2];b.fillRect(size*.12,size*.12,size*.76,Math.max(2,size*.04));return big.toDataURL('image/png')}
+function validSlug(s){return String(s).toLowerCase().trim().replace(/[^a-z0-9_]+/g,'_').replace(/^_+|_+$/g,'').slice(0,32)}
+function mobTextureData(theme){
+ const pal=themes[theme]||themes.abyss,canvas=document.createElement('canvas');canvas.width=64;canvas.height=64;const c=canvas.getContext('2d');
+ const rect=(x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(x,y,w,h)};
+ rect(0,0,64,64,pal[0]);
+ // Fill the classic 64x64 humanoid UV atlas regions with an intentional, themed pixel-art palette.
+ // Head tiles.
+ rect(0,0,32,16,pal[1]);rect(0,0,8,8,pal[2]);rect(8,0,8,8,pal[1]);rect(16,0,8,8,pal[2]);rect(24,0,8,8,pal[1]);
+ rect(0,8,8,8,pal[2]);rect(8,8,8,8,pal[3]);rect(16,8,8,8,pal[1]);rect(24,8,8,8,pal[2]);
+ // Dark outline shading and glowing eyes on the head-front UV tile.
+ rect(8,8,8,8,pal[2]);rect(9,9,6,1,pal[0]);rect(10,11,2,2,pal[4]);rect(13,11,2,2,pal[4]);rect(11,14,3,1,pal[0]);
+ // Torso region (UV origin 16,16; front panel around x=20..27).
+ rect(16,16,16,16,pal[1]);rect(20,20,8,12,pal[2]);rect(20,20,1,12,pal[0]);rect(27,20,1,12,pal[0]);
+ rect(22,22,4,7,pal[0]);rect(23,23,2,5,pal[4]);rect(21,30,6,1,pal[3]);rect(18,19,2,11,pal[3]);rect(30,19,2,11,pal[3]);
+ // Arm regions and armor stripes.
+ rect(32,16,16,16,pal[1]);rect(40,20,4,12,pal[2]);rect(41,22,2,7,pal[3]);rect(42,23,1,5,pal[4]);
+ rect(40,32,16,16,pal[1]);rect(40,36,4,12,pal[2]);rect(41,38,2,7,pal[3]);rect(42,39,1,5,pal[4]);
+ // Leg regions, knee bands and foot shading.
+ rect(0,16,16,16,pal[1]);rect(4,20,4,12,pal[2]);rect(5,23,2,2,pal[3]);rect(4,29,4,3,pal[0]);
+ rect(0,32,16,16,pal[1]);rect(4,36,4,12,pal[2]);rect(5,39,2,2,pal[3]);rect(4,45,4,3,pal[0]);
+ // Add restrained pixel noise only on outer atlas panels to avoid a flat, noisy face.
+ for(let y=0;y<64;y++)for(let x=0;x<64;x++){if(((x*13+y*7)%97)===0)c.fillStyle=pal[3],c.fillRect(x,y,1,1)}
+ return canvas.toDataURL('image/png');
+}
+function makeAddonFiles({name,namespace,itemId,displayName,theme,recipe,guide,kind='item',mobHealth=28,mobDamage=6,mobSpeed=0.25}){
+ const ns=validSlug(namespace),id=validSlug(itemId);if(!ns||!id)throw new Error('Namespace and item ID must contain letters or numbers.');
+ const slug=validSlug(name)||'huluai_addon',bp=slug+'_BP',rp=slug+'_RP';
+ const bpHeader=uid(),bpModule=uid(),rpHeader=uid(),rpModule=uid(),v=[1,0,0],engine=[1,20,80];
+ const bpManifest={format_version:2,header:{name:name+' — Behavior Pack',description:'Generated by HuluAI Virtual Computer V3 Bedrock Forge. Review and test before publishing.',uuid:bpHeader,version:v,min_engine_version:engine},modules:[{type:'data',uuid:bpModule,version:v}],dependencies:[{uuid:rpHeader,version:v}]};
+ const rpManifest={format_version:2,header:{name:name+' — Resource Pack',description:'Generated pixel art and models by HuluAI Virtual Computer V3.',uuid:rpHeader,version:v,min_engine_version:engine},modules:[{type:'resources',uuid:rpModule,version:v}]};
+ const result=[{name:bp+'/manifest.json',content:JSON.stringify(bpManifest,null,2)},{name:rp+'/manifest.json',content:JSON.stringify(rpManifest,null,2)}];
+ let guideText='';
+ if(kind==='mob'){
+   const entityId=ns+':'+id,geom='geometry.'+ns+'.'+id,display=displayName||id;
+   const entity={'format_version':'1.20.50','minecraft:entity':{description:{identifier:entityId,is_spawnable:true,is_summonable:true,is_experimental:false},components:{'minecraft:type_family':{family:[id,'monster']},'minecraft:health':{value:mobHealth,max:mobHealth},'minecraft:movement':{value:mobSpeed},'minecraft:movement.basic':{},'minecraft:navigation.walk':{can_path_over_water:true,avoid_water:false},'minecraft:jump.static':{},'minecraft:attack':{damage:mobDamage},'minecraft:physics':{},'minecraft:pushable':{is_pushable:true,is_pushable_by_piston:true},'minecraft:collision_box':{width:0.8,height:1.9},'minecraft:behavior.float':{priority:0},'minecraft:behavior.nearest_attackable_target':{priority:2,must_see:true,reselect_targets:true,within_radius:16,entity_types:[{filters:{test:'is_family',subject:'other',value:'player'},max_dist:16}]},'minecraft:behavior.melee_attack':{priority:3,speed_multiplier:1.1,track_target:true},'minecraft:behavior.random_stroll':{priority:7,speed_multiplier:0.7},'minecraft:behavior.look_at_player':{priority:8,look_distance:8,probability:0.04},'minecraft:behavior.random_look_around':{priority:9}}}};
+   const client={'format_version':'1.10.0','minecraft:client_entity':{description:{identifier:entityId,materials:{default:'entity_alphatest'},textures:{default:'textures/entity/'+id},geometry:{default:geom},render_controllers:['controller.render.default'],spawn_egg:{base_color:themes[theme]?.[1]||'#24526e',overlay_color:themes[theme]?.[3]||'#a7e5ff'},animations:{idle:'animation.'+id+'.idle'},scripts:{animate:['idle']}}}};
+   const geometry={'format_version':'1.12.0','minecraft:geometry':[{description:{identifier:geom,texture_width:64,texture_height:64,visible_bounds_width:3,visible_bounds_height:3,visible_bounds_offset:[0,1,0]},bones:[{name:'root',pivot:[0,0,0]},{name:'body',parent:'root',pivot:[0,12,0],cubes:[{origin:[-4,12,-2],size:[8,12,4],uv:[16,16]}]},{name:'head',parent:'root',pivot:[0,24,0],cubes:[{origin:[-4,24,-4],size:[8,8,8],uv:[0,0]}]},{name:'right_arm',parent:'root',pivot:[-5,22,0],cubes:[{origin:[-7,12,-2],size:[3,12,4],uv:[40,16]}]},{name:'left_arm',parent:'root',pivot:[5,22,0],cubes:[{origin:[4,12,-2],size:[3,12,4],uv:[40,32]}]},{name:'right_leg',parent:'root',pivot:[-2,12,0],cubes:[{origin:[-4,0,-2],size:[4,12,4],uv:[0,16]}]},{name:'left_leg',parent:'root',pivot:[2,12,0],cubes:[{origin:[0,0,-2],size:[4,12,4],uv:[0,32]}]}]}]};
+   const animation={'format_version':'1.8.0',animations:{['animation.'+id+'.idle']:{loop:true,animation_length:2,bones:{body:{rotation:['0.0','0.0','0.0'],position:[0,'math.sin(query.life_time * 3.0) * 0.25',0]},head:{rotation:[0,'math.sin(query.life_time * 1.5) * 3',0]}}}}};
+   result.push({name:bp+'/entities/'+id+'.json',content:JSON.stringify(entity,null,2)});
+   result.push({name:rp+'/entity/'+id+'.entity.json',content:JSON.stringify(client,null,2)});
+   result.push({name:rp+'/models/entity/'+id+'.geo.json',content:JSON.stringify(geometry,null,2)});
+   result.push({name:rp+'/animations/'+id+'.animation.json',content:JSON.stringify(animation,null,2)});
+   result.push({name:rp+'/textures/entity/'+id+'.png',content:mobTextureData(theme)});
+   result.push({name:bp+'/pack_icon.png',content:textureData(theme,256)},{name:rp+'/pack_icon.png',content:textureData(theme,256)});
+   guideText=name+' — MINI GUIDE\n\nCONTENTS\n- Behavior Pack manifest and entity definition\n- Resource Pack manifest, client entity, geometry, idle animation, and generated 64x64 pixel texture\n- Spawn egg registration in the client entity\n\nINSTALL AND TEST\n1. Open the .mcaddon with Minecraft Bedrock and wait for import to finish.\n2. Create a NEW test world and enable both packs.\n3. Use chat command: /summon '+entityId+'\n4. Confirm the mob appears, moves, and targets a player.\n5. Check the spawn egg/Creative inventory if supported by the installed game version.\n\nTROUBLESHOOTING\n- If the entity fails to load, check the Content Log for JSON/geometry/animation errors.\n- If it is invisible, check client entity identifier, geometry identifier, texture path, and render controller.\n- If it does not attack, verify behavior pack activation and check AI component validation.\n\nLIMITATIONS\nThis is a hostile mob scaffold with a simple humanoid geometry and generated placeholder art. It has not been tested inside Minecraft in this browser; refine geometry/UVs in Blockbench and test in-game before publishing.\n';
+ } else {
+   const item={'format_version':'1.20.50','minecraft:item':{description:{identifier:ns+':'+id,menu_category:{category:'items'}},components:{'minecraft:display_name':{value:displayName||id},'minecraft:max_stack_size':64,'minecraft:icon':{texture:ns+':'+id}}}};
+   const textureMap={resource_pack_name:name,texture_name:'atlas.items',texture_data:{[ns+':'+id]:{textures:'textures/items/'+id}}};
+   result.push({name:bp+'/items/'+id+'.json',content:JSON.stringify(item,null,2)},{name:rp+'/textures/item_texture.json',content:JSON.stringify(textureMap,null,2)},{name:rp+'/textures/items/'+id+'.png',content:textureData(theme,16)},{name:bp+'/pack_icon.png',content:textureData(theme,256)},{name:rp+'/pack_icon.png',content:textureData(theme,256)});
+   if(recipe){const rec={'format_version':'1.20.10','minecraft:recipe_shaped':{description:{identifier:ns+':'+id+'_recipe'},tags:['crafting_table'],pattern:['ABA','BCB','ABA'],key:{A:{item:'minecraft:quartz'},B:{item:'minecraft:amethyst_shard'},C:{item:'minecraft:echo_shard'}},result:{item:ns+':'+id,count:1}}};result.push({name:bp+'/recipes/'+id+'.json',content:JSON.stringify(rec,null,2)})}
+   guideText=name+' — MINI GUIDE\n\nCONTENTS\n- Behavior Pack and Resource Pack manifests\n- Custom item: '+ns+':'+id+'\n- Generated pixel-art texture and item texture registration\n'+(recipe?'- Shaped crafting recipe using quartz, amethyst shards, and echo shards\n':'')+'\nINSTALL\n1. Open the generated .mcaddon file with Minecraft Bedrock.\n2. Wait for import to complete.\n3. Create a NEW test world and enable both generated packs.\n4. Check the Creative inventory for '+(displayName||id)+'.\n'+(recipe?'5. Test its recipe at a crafting table.\n':'')+'\nTROUBLESHOOTING\n- If the icon is missing, check textures/item_texture.json and the PNG path.\n- If the item does not appear, confirm both packs are enabled and inspect content logs.\n\nLIMITATIONS\nThis is a custom item starter, not a custom-dimension generator. It has not been tested in-game by this generator.\n';
+ }
+ if(guide)result.push({name:'MINI_GUIDE.txt',content:guideText});
+ result.push({name:'README.md',content:'# '+name+'\n\nGenerated by HuluAI Virtual Computer V3 Bedrock Forge.\n\nType: '+kind+' starter\nIdentifier: `'+ns+':'+id+'`\n\nRead `MINI_GUIDE.txt` for install/test steps.\n\nRun static checks, import into Minecraft Bedrock, and verify gameplay before publishing.\n'});
+ return {slug,files:result,meta:{name,namespace:ns,itemId:id,kind,behaviorPack:bp,resourcePack:rp,includesRecipe:recipe&&kind==='item',includesGuide:guide}};
+}
+let lastBuild=null;
+function bytesToDataUrl(bytes,mime='application/zip'){let binary='';const chunk=0x8000;for(let i=0;i<bytes.length;i+=chunk)binary+=String.fromCharCode(...bytes.subarray(i,Math.min(i+chunk,bytes.length)));return 'data:'+mime+';base64,'+btoa(binary)}
+function buildAddon(downloadIt){
+ try{if(editorDirty)saveCurrent();
+  const name=$('addonName').value.trim()||'HuluAI Starter Addon',namespace=$('addonNamespace').value,itemId=$('itemId').value,displayName=$('itemDisplayName').value.trim()||itemId,theme=$('textureTheme').value,recipe=$('includeRecipe').checked,guide=$('includeGuide').checked,kind=$('addonKind').value,mobHealth=Number($('mobHealth').value),mobDamage=Number($('mobDamage').value),mobSpeed=Number($('mobSpeed').value);
+  if(kind==='mob'&&(!Number.isFinite(mobHealth)||mobHealth<1||mobHealth>500||!Number.isFinite(mobDamage)||mobDamage<0||mobDamage>100||!Number.isFinite(mobSpeed)||mobSpeed<0.05||mobSpeed>1.5))throw new Error('Mob health must be 1–500, damage 0–100, and speed 0.05–1.5.');
+  const built=makeAddonFiles({name,namespace,itemId,displayName,theme,recipe,guide,kind,mobHealth,mobDamage,mobSpeed});lastBuild=built;
+  const overwrite=new Set(built.files.map(f=>f.name));files=files.filter(f=>!overwrite.has(f.name));built.files.forEach(f=>files.push({...f,updatedAt:now()}));
+  current=built.files.find(f=>f.name.endsWith('/manifest.json'))?.name||built.files[0].name;saveStore();renderFiles();showEditor();
+  const report='Built '+built.files.length+' files.\nType: '+(kind==='mob'?'Hostile mob scaffold':'Custom item')+'\nBehavior Pack: '+built.meta.behaviorPack+'\nResource Pack: '+built.meta.resourcePack+'\nIdentifier: '+built.meta.namespace+':'+built.meta.itemId+'\nRecipe: '+(built.meta.includesRecipe?'included':'not included')+'\nMini guide: '+(guide?'included':'not included')+'\n\nRun all project checks; then import and test in Minecraft Bedrock. This website cannot confirm in-game compatibility.';
+  setOutput('builderOutput',report,'good');setOutput('taskOutput','Local Bedrock starter generated. No model API was used. Run all project checks before in-game testing.','good');
+  if(downloadIt){
+    const makePack=prefix=>zipStoredBytes(built.files.filter(f=>f.name.startsWith(prefix+'/')).map(f=>({name:f.name.slice(prefix.length+1),content:f.content})));
+    const bpBytes=makePack(built.meta.behaviorPack),rpBytes=makePack(built.meta.resourcePack);
+    const rootDocs=built.files.filter(f=>!f.name.startsWith(built.meta.behaviorPack+'/')&&!f.name.startsWith(built.meta.resourcePack+'/'));
+    const outer=[{name:built.meta.behaviorPack+'.mcpack',content:bpBytes},{name:built.meta.resourcePack+'.mcpack',content:rpBytes},...rootDocs.map(f=>({name:f.name,content:f.content}))];
+    const addon=zipStoredBytes(outer);downloadBlob(built.slug+'.mcaddon',addon,'application/octet-stream');
+    setOutput('builderOutput',report+'\n\nDownloaded '+built.slug+'.mcaddon. The outer archive contains actual nested .mcpack ZIPs plus root guide/readme files.','good');
+  }
+  return built;
+ }catch(e){setOutput('builderOutput','Build failed: '+e.message,'bad');return null}
+}
+$('buildAddon').onclick=()=>buildAddon(false);$('downloadMcaddon').onclick=()=>buildAddon(true);
+function updateBuilderMode(){
+ const mob=$('addonKind').value==='mob';
+ $('mobSettings').classList.toggle('hide',!mob);
+ $('itemDisplayName').previousElementSibling.textContent=mob?'Mob display name':'In-game display name';
+ $('itemId').previousElementSibling.textContent=mob?'Mob identifier ID':'Item ID';
+ $('includeRecipe').parentElement.style.opacity=mob?'0.45':'1';$('includeRecipe').disabled=mob;
+ $('bpSummary').textContent=mob?'Spawnable entity definition, hostile target logic, movement, health, and attack.':'Manifest, custom item definition, optional crafting recipe.';
+ $('rpSummary').textContent=mob?'Client entity, geometry model, idle animation, spawn egg colors, and 64×64 texture.':'Manifest, item atlas registration, generated pixel-art PNG.';
+ $('guideSummary').textContent=mob?'Import steps, /summon command, behavior checks, and Content Log troubleshooting.':'Install steps, Creative inventory test, recipe test, and troubleshooting.';
+ $('buildChecklist').textContent=mob?'1. Configure mob name, identifier, health, damage, and speed\n2. Build Behavior + Resource Packs with model/texture files\n3. Run JSON, manifest, geometry, and texture-path checks\n4. Import both packs into a new Bedrock test world\n5. Try /summon namespace:identifier and inspect the Content Log':'1. Configure item details\n2. Build Behavior + Resource Packs\n3. Run JSON, manifest, and texture-registration checks\n4. Import into Minecraft\n5. Test Creative inventory, texture, and crafting recipe';
+}
+$('addonKind').addEventListener('change',updateBuilderMode);
+updateBuilderMode();
+
+
+$('sendTask').onclick=async()=>{if(editorDirty)saveCurrent();const instruction=$('instruction').value.trim(),api=(localStorage.getItem(API_KEY)||'').replace(/\/+$/,'');if(!instruction){setOutput('taskOutput','Enter a task instruction first.','warn');return}if(!api){setOutput('taskOutput','No model API URL configured. No request was sent. Use local commands, builder, preview, and validation, or configure your real HuluAI API under Model connection.','warn');return}setOutput('taskOutput','Sending workspace context to '+api+'/chat …');$('sendTask').disabled=true;try{const r=await fetch(api+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:instruction,prompt:instruction,workspace_files:files.map(f=>({name:f.name,content:isBinary(f)?'[binary image asset omitted from prompt]':f.content}))})});const body=await r.text();if(!r.ok)throw new Error('HTTP '+r.status+': '+body.slice(0,400));let data;try{data=JSON.parse(body)}catch{data={response:body}}const val=data.response??data.reply??data.output??data.message??data.result??data;let msg=typeof val==='string'?val:JSON.stringify(val,null,2);if(Array.isArray(data.files)){let accepted=0;for(const x of data.files){if(!x||typeof x.name!=='string'||typeof x.content!=='string')continue;try{const path=safeName(x.name),idx=files.findIndex(f=>f.name===path),obj={name:path,content:x.content,updatedAt:now()};if(idx>=0)files[idx]=obj;else files.push(obj);accepted++}catch(e){msg+='\nSkipped file '+x.name+': '+e.message}}saveStore();renderFiles();showEditor();msg+='\n\nReceived '+accepted+' file(s) from the model and added them to the workspace. Review and validate before running or importing.'}setOutput('taskOutput',msg,'good')}catch(e){setOutput('taskOutput','Model request failed: '+e.message+'\nCheck URL, GET /health, POST /chat support, HTTPS, and CORS. Your local files were not changed.','bad')}finally{$('sendTask').disabled=false}};
+$('saveModelApi').onclick=()=>{const v=$('modelApiUrl').value.trim().replace(/\/+$/,'');if(v&&!/^https?:\/\//i.test(v)){setOutput('connectionOutput','Enter a full http:// or https:// URL.','bad');return}if(v)localStorage.setItem(API_KEY,v);else localStorage.removeItem(API_KEY);updateStatus();setOutput('connectionOutput',v?'Saved base URL locally. Click Test /health before using model tasks.':'URL cleared.','good')};
+$('disconnectApi').onclick=()=>{localStorage.removeItem(API_KEY);$('modelApiUrl').value='';updateStatus();setOutput('connectionOutput','Disconnected. Workspace files remain local.','good')};
+$('testModelApi').onclick=async()=>{const api=(localStorage.getItem(API_KEY)||'').replace(/\/+$/,'');if(!api){setOutput('connectionOutput','Save an API URL first.','warn');return}setOutput('connectionOutput','Checking '+api+'/health …');try{const r=await fetch(api+'/health');const t=await r.text();if(!r.ok)throw new Error('HTTP '+r.status+' '+t.slice(0,300));setOutput('connectionOutput','Health endpoint responded (HTTP '+r.status+'):\n'+t,'good');$('modelPill').className='pill ok';$('modelPill').textContent='● Model API health endpoint reachable'}catch(e){setOutput('connectionOutput','Connection failed: '+e.message+'\nCheck that the server is online, uses HTTPS where needed, and allows this site through CORS.','bad')}};
+
+// Keyboard shortcut Ctrl/Cmd+S saves the selected text file instead of opening browser Save Page.
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();saveCurrent()}});
+function seedFiles(){const readme='# HuluAI Virtual Computer V3 Bedrock Forge\n\nBrowser-local Bedrock development workspace.\n\n- Preview HTML inside an isolated sandbox, including workspace-local CSS, JavaScript, and images where available.\n- Use templates for manifests, items, recipes, entities, functions, and preview tests.\n- Build a custom item starter or a hostile mob starter with generated texture, model, and animation files.\n- Run static checks for JSON, manifests, UUIDs, item texture registrations, entity geometry, and texture paths.\n- Connect a trusted HuluAI model API for model-assisted file changes.\n\nNot a full Windows virtual machine. Native app execution requires a separate local agent. Static checks do not replace Minecraft import/testing.\n';const manifest={format_version:2,header:{name:'Validation Example — Not a complete pack',description:'Example manifest for testing the checker only.',uuid:'b3d24a90-3f1a-4de0-953a-127c97cb2251',version:[1,0,0],min_engine_version:[1,20,80]},modules:[{type:'data',uuid:'b3d24a90-3f1a-4de0-953a-127c97cb2252',version:[1,0,0]}]};const demo='<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HuluAI Preview Test</title></head>\n<body style="font:16px system-ui;padding:2rem;background:#101827;color:#eff6ff"><h1>Virtual Computer Preview ✅</h1><p>This HTML is running in a sandboxed preview.</p><button onclick="document.querySelector(\'p\').textContent=\'Button interaction works in preview.\'">Test interaction</button></body></html>\n';return[{name:'examples/preview-demo.html',content:demo,updatedAt:now()},{name:'README.md',content:readme,updatedAt:now()},{name:'examples/manifest.example.json',content:JSON.stringify(manifest,null,2),updatedAt:now()}]}
+function init(){try{let raw=localStorage.getItem(WORKSPACE_KEY);if(!raw){const old=localStorage.getItem('huluai_vc_v2_workspace');if(old){raw=old;try{localStorage.setItem(WORKSPACE_KEY,old);localStorage.removeItem('huluai_vc_v2_workspace')}catch(migrationError){/* Keep the legacy copy if storage is full. */}}}if(raw){const v=JSON.parse(raw);if(Array.isArray(v))files=v.filter(f=>f&&typeof f.name==='string'&&typeof f.content==='string').map(f=>({...f,updatedAt:f.updatedAt||now()}))}}catch(e){files=[]}if(!files.length){files=seedFiles();saveStore()}if(!localStorage.getItem(API_KEY)&&localStorage.getItem('huluai_vc_v2_api_url'))localStorage.setItem(API_KEY,localStorage.getItem('huluai_vc_v2_api_url'));current=(files.find(f=>f.name==='examples/preview-demo.html'&&isHtmlFile(f))||getHtmlFiles()[0]||files[0])?.name||null;lastHtmlFile=isHtmlFile(selected())?current:(getHtmlFiles()[0]?.name||null);$('modelApiUrl').value=localStorage.getItem(API_KEY)||'';updateStatus();renderFiles();showEditor();setOutput('taskOutput','V3 workspace ready. V2 workspace/API settings migrate automatically when found. Preview auto-selects HTML; item and hostile-mob starters, diagnostics, and optional model connection are available.','good')}
+init();
+</script>
+</body>
+</html>
